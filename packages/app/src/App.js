@@ -5,9 +5,8 @@ import { Navbar, Nav, NavItem } from "reactstrap";
 import "./app.css";
 
 const App = () => {
-  // MF
-
-  console.log("App");
+  const HomePage = React.lazy(() => import("HomeApp/HomePage"));
+  const ContactPage = React.lazy(() => import("ContactApp/ContactPage"));
 
   return (
     <Router>
@@ -22,6 +21,12 @@ const App = () => {
             </NavItem>
           </Nav>
         </Navbar>
+        <Switch>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Route exact path='/' component={HomePage} />
+            <Route path='/contact' component={ContactPage} />
+          </Suspense>
+        </Switch>
       </div>
     </Router>
   );

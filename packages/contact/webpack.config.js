@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const path = require("path");
+const packageJson = require("./package.json");
 
 module.exports = {
   entry: "./src/index.js",
@@ -35,8 +36,9 @@ module.exports = {
       name: "ContactApp",
       filename: "remoteEntry.js",
       exposes: {
-        "./ContactApp": "./src/Contact",
+        "./ContactPage": "./src/Contact",
       },
+      shared: { ...packageJson.devDependencies },
     }),
   ],
   devServer: {
