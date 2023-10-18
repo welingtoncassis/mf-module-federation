@@ -31,6 +31,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./public/index.html",
     }),
+    new ModuleFederationPlugin({
+      name: "App",
+      remotes: {
+        HomeApp: "HomeApp@http://localhost:3002/remoteEntry.js",
+        ContactApp: "ContactApp@http://localhost:3003/remoteEntry.js",
+      },
+    }),
   ],
   devServer: {
     static: {

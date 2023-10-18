@@ -31,6 +31,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./public/index.html",
     }),
+    new ModuleFederationPlugin({
+      name: "HomeApp",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./HomeApp": "./src/Home",
+      },
+    }),
   ],
   devServer: {
     static: {
