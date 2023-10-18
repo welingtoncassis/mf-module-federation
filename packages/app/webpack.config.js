@@ -1,4 +1,3 @@
-const app = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const path = require("path");
@@ -6,26 +5,20 @@ const path = require("path");
 module.exports = {
   entry: "./src/index.js",
   output: {
-    filename: "[name].js",
-    path: path.resolve(__dirname, "./dist"),
-    publicPath: "http://localhost:9001/",
-  },
-  devServer: {
-    contentBase: path.resolve(__dirname, "./dist"),
-    index: "index.html",
-    port: 9001,
-    historyApiFallback: true,
-  },
-  resolve: {
-    extensions: [".jsx", ".js", ".json"],
+    path: path.resolve(__dirname, "dist"),
+    filename: "[name].bundle.js",
+    publicPath: "http://localhost:3001/",
   },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        loader: require.resolve("babel-loader"),
-        options: {
-          presets: [require.resolve("@babel/preset-react")],
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-react"],
+          },
         },
       },
       {
@@ -36,9 +29,18 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: "index.hml",
       template: "./public/index.html",
-      title: "App",
     }),
   ],
+  devServer: {
+    static: {
+      directory: path.join(__dirname, "public"),
+    },
+    port: 3001,
+    hot: true,
+    historyApiFallback: true,
+  },
+  resolve: {
+    extensions: [".js", ".jsx", ".json"],
+  },
 };
